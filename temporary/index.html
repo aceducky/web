@@ -15,8 +15,9 @@
         font-size: 1.3rem;
         width: 100vw;
         height: 100vh;
-        margin: 0;
-        padding: 0;
+        display: flex;        
+        justify-content: center;
+        align-items: center;
       }
       #task-list-header {
         width: 300px;
@@ -41,6 +42,9 @@
         align-items: baseline;
         padding-top: 6px;
       }
+      #task-counter{
+        padding-left: 30px;
+      }
       .remove-btn {
     margin: 10px;
     padding: 0;
@@ -62,10 +66,13 @@
     <title>Temp</title>
   </head>
   <body>
-    <div id="task-counter-el">
-      Tasks: <span id="completed">0</span>/<span id="incomplete">0</span>
+    <div id="main"></div>
+    <div id="taskpart">
+      <div id="task-counter">
+        Tasks: <span id="completed">0</span>/<span id="total-tasks">0</span>
+      </div>
+      <div id="task-list-header"></div>
     </div>
-    <div id="task-list-header"></div>
     <script src="script.js"></script>
   </body>
 </html>
