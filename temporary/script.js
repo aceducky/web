@@ -26,6 +26,8 @@ function present(el) {
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 console.log(tasks);
+//load stored tasks
+  //extend the doWork function somehow using prototype or "extends"
 
 tasks.push([ "task 1", true ]);
 console.log(tasks[0]); //output: {task 1: true}
