@@ -1,62 +1,79 @@
-const input = document.querySelector("#task-input");
-const addBtn = document.querySelector("#add-btn");
+localStorage.clear();
 const tasksListHeader = document.querySelector("#tasks-list-header");
-let tasksList = new Map();
-let completed_tasks = 0;
-let incomplete_tasks = 0;
+const taskInput = document.querySelector("#task-input");
+const addBtn = document.querySelector("#add-btn");
+const tasksCounterEl = document.querySelector("#tasks-counter");
 
-function increaseCompletedTasks() {
-  completed_tasks++;
-  document.querySelector("#completed-tasks").textContent = completed_tasks;
+function taskCounter() {
+  let totalTasks = document.querySelectorAll(
+    "#tasks-list-header .task-el"
+  ).length;
+  let completed = document.querySelectorAll(
+    '#tasks-list-header .task-el input[type="checkbox"]:checked'
+  ).length;
+
+  if (totalTasks === 0) {
+    tasksCounterEl.textContent = "No tasks";
+  } else {
+    tasksCounterEl.textContent = `Tasks Done: ${completed}/${totalTasks}`;
+  }
 }
 
-function increaseInCompleteTasks() {
-  incomplete_tasks++;
-  document.querySelector("#incomplete-tasks").textContent = incomplete_tasks; // Corrected element ID
+taskCounter();
+function present(el) {
+  document.body.appendChild(el);
 }
 
-input.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    handleAddTask();
-  }
-});
-
-function handleAddTask() {
-  let task = input.value.trim();
-  if (!task) {
-    alert("Enter a task");
-    return;
-  }
-  tasksList.set(task, false);
-  console.log(task);
-  const task_el = document.createElement("li");
+function addTask(task, state = false) {
+  let task_el = document.createElement("div");
+  task_el.setAttribute("class", "task-el");
+  let task_label = document.createElement("label");
+  task_label.setAttribute("class", "task-label");
 
   let checkbox = document.createElement("input");
   checkbox.type = "checkbox";
-  checkbox.setAttribute('class','task_checkbox');
-
-  let task_label = document.createElement("label");
+  checkbox.checked = state;
   task_label.appendChild(checkbox);
   task_label.appendChild(document.createTextNode(task));
 
   let removeBtn = document.createElement("button");
+  removeBtn.innerHTML = "x";
   removeBtn.setAttribute("class", "remove-btn");
-  removeBtn.innerHTML = "<i class='fas fa-trash'></i>";
 
-  task_el.append(task_label, removeBtn);
-  tasksListHeader.appendChild(task_el);
-  increaseInCompleteTasks();
-  input.value = "";
+  task_el.appendChild(task_label);
+  task_el.appendChild(removeBtn);
+  tasksListHeader.append(task_el);
 
-  // Moved event listeners inside handleAddTask function
-  checkbox.addEventListener('change', function () {
-    this.parentElement.style.textDecoration == 'line-through' ? (this.parentElement.style.textDecoration = 'none', increaseCompletedTasks()) : (this.parentElement.style.textDecoration = 'line-through', increaseInCompleteTasks());
+  checkbox.addEventListener("change", function () {
+    if (this.checked) {
+      this.parentElement.style.textDecoration = "line-through";
+    } else {
+      this.parentElement.style.textDecoration = "";
+    }
+    taskCounter();
+    console.log("here");
   });
 
-  removeBtn.addEventListener('click', (event) => { // Changed to arrow function and added event parameter
-    event.currentTarget.parentElement.parentElement.remove();
-    // Removed increaseCompletedTasks function call
+  removeBtn.addEventListener("click", (e) => {
+    e.target.parentElement.remove();
+    taskCounter();
   });
 }
 
-addBtn.addEventListener("click", handleAddTask);
+function handleTaskInput() {
+  let task = taskInput.value.trim();
+  if (!task) {
+    alert("Enter a task");
+    return;
+  }
+  addTask(task, false);
+  taskInput.value = "";
+  taskCounter();
+}
+
+taskInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    handleTaskInput();
+  }
+});
+addBtn.addEventListener("click", handleTaskInput);
