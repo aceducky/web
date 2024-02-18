@@ -44,7 +44,6 @@ function addTask(task, state = false) {
   task_el.appendChild(removeBtn);
   tasksListHeader.append(task_el);
 
-  console.log(checkbox.checked);
   if (checkbox.checked) {
     checkbox.parentElement.style.textDecoration = 'line-through'
   }
@@ -61,6 +60,7 @@ function addTask(task, state = false) {
   removeBtn.addEventListener("click", (e) => {
     e.target.parentElement.remove();
     taskCounter();
+    saveTasksToLocalStorage();
   });
   taskCounter();
   saveTasksToLocalStorage();
@@ -74,7 +74,6 @@ function handleTaskInput() {
   }
   addTask(task, false);
 
-  console.log(tasksList);
   taskInput.value = "";
 }
 
