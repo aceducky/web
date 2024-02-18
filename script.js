@@ -38,12 +38,15 @@ function addTask(task, state = false) {
   removeBtn.innerHTML = "x";
   removeBtn.setAttribute("class", "remove-btn");
 
+ 
+
   task_el.appendChild(task_label);
   task_el.appendChild(removeBtn);
   tasksListHeader.append(task_el);
 
+  console.log(checkbox.checked);
   if (checkbox.checked) {
-    checkbox.parentElement.style.textDecoration = "line-through";
+    checkbox.parentElement.style.textDecoration = 'line-through'
   }
   checkbox.addEventListener("change", function () {
     if (this.checked) {
