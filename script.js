@@ -52,7 +52,6 @@ function addTask(task, state = false) {
       this.parentElement.style.textDecoration = "";
     }
     taskCounter();
-    console.log("here");
   });
 
   removeBtn.addEventListener("click", (e) => {
@@ -77,4 +76,5 @@ taskInput.addEventListener("keydown", function (e) {
     handleTaskInput();
   }
 });
+addBtn.addEventListener('click', handleTaskInput)
 
