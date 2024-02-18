@@ -152,15 +152,14 @@ input[type="checkbox"] {
     align-items: center;
     flex-direction: column;
   }
-  #task-input{
+  #task-input {
     width: 95vw;
   }
-  .task-el{
+  .task-el {
     width: 90vw;
   }
-  #tasks-counter{
+  #tasks-counter {
     width: 90vw;
     padding: 5px;
   }
-  
 }

@@ -1,9 +1,9 @@
-localStorage.clear();
 const tasksListHeader = document.querySelector("#tasks-list-header");
 const taskInput = document.querySelector("#task-input");
 const addBtn = document.querySelector("#add-btn");
 const tasksCounterEl = document.querySelector("#tasks-counter");
 
+let tasksList = [];
 function taskCounter() {
   let totalTasks = document.querySelectorAll(
     "#tasks-list-header .task-el"
@@ -20,9 +20,6 @@ function taskCounter() {
 }
 
 taskCounter();
-function present(el) {
-  document.body.appendChild(el);
-}
 
 function addTask(task, state = false) {
   let task_el = document.createElement("div");
@@ -45,6 +42,9 @@ function addTask(task, state = false) {
   task_el.appendChild(removeBtn);
   tasksListHeader.append(task_el);
 
+  if (checkbox.checked) {
+    checkbox.parentElement.style.textDecoration = "line-through";
+  }
   checkbox.addEventListener("change", function () {
     if (this.checked) {
       this.parentElement.style.textDecoration = "line-through";
@@ -52,12 +52,15 @@ function addTask(task, state = false) {
       this.parentElement.style.textDecoration = "";
     }
     taskCounter();
+    saveTasksToLocalStorage();
   });
 
   removeBtn.addEventListener("click", (e) => {
     e.target.parentElement.remove();
     taskCounter();
   });
+  taskCounter();
+  saveTasksToLocalStorage();
 }
 
 function handleTaskInput() {
@@ -67,14 +70,32 @@ function handleTaskInput() {
     return;
   }
   addTask(task, false);
+
+  console.log(tasksList);
   taskInput.value = "";
-  taskCounter();
+}
+
+function saveTasksToLocalStorage() {
+  let tasks = [];
+  document.querySelectorAll("#tasks-list-header .task-el").forEach((taskEl) => {
+    let task = taskEl.querySelector("span").textContent;
+    let state = taskEl.querySelector('input[type="checkbox"]').checked;
+    tasks.push({ task, state });
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function loadTasksFromLocalStorage() {
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.forEach(({ task, state }) => addTask(task, state));
 }
 
 taskInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
     handleTaskInput();
+    saveTasksToLocalStorage();
   }
 });
-addBtn.addEventListener('click', handleTaskInput)
+addBtn.addEventListener("click", handleTaskInput);
 
+document.addEventListener("DOMContentLoaded", loadTasksFromLocalStorage);
