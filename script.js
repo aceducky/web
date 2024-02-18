@@ -34,8 +34,9 @@ function addTask(task, state = false) {
   checkbox.type = "checkbox";
   checkbox.checked = state;
   task_label.appendChild(checkbox);
-  task_label.appendChild(document.createTextNode(task));
-
+  const span = document.createElement("span");
+  span.textContent = task;
+  task_label.appendChild(span);
   let removeBtn = document.createElement("button");
   removeBtn.innerHTML = "x";
   removeBtn.setAttribute("class", "remove-btn");
@@ -76,4 +77,4 @@ taskInput.addEventListener("keydown", function (e) {
     handleTaskInput();
   }
 });
-addBtn.addEventListener("click", handleTaskInput);
+
