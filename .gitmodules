@@ -1,0 +1,6 @@
+[submodule "todo-page"]
+	path = todo-page
+	url = https://github.com/aceducky/todo-page
+[submodule "previewer"]
+	path = previewer
+	url = https://github.com/aceducky/previewer
